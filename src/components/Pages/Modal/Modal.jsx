@@ -2,6 +2,7 @@ import './Modal.css'
 import { useRef, useState } from 'react'
 import { UserService } from '../../../services/user.service'
 import CloseIcon from '../../../assets/close-icon.svg'
+import Slider from '../../atoms/slider/slider'
 
 export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit }) {
   const nameRef = useRef()
@@ -10,6 +11,7 @@ export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit
   const attackRef = useRef()
   const defenseRef = useRef()
   const skillsRef = useRef()
+  const positionRef = useRef()
   const [nameError, setNameError] = useState('')
   const [urlError, setUrlError] = useState('')
 
@@ -29,10 +31,11 @@ export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit
     }
     if (nameRef.current.value !== '' && urlRef.current.value !== '') {
       if (!edit) {
+        console.log(nameRef.current.value)
         const playerNew = {
           id: Math.floor(Math.random() * (1000 - 1) + 1),
           firstName: nameRef.current.value,
-          lastName: string,
+          lastName: secondNameRef.current.value,
           image: urlRef.current.value,
           attack: parseInt(attackRef.current.value),
           defense: parseInt(defenseRef.current.value),
@@ -44,13 +47,14 @@ export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit
       } else {
         const playerNew = {
           id: idEdit,
-          name: nameRef.current.value,
+          firstName: nameRef.current.value,
+          lastName: secondNameRef.current.value,
           image: urlRef.current.value,
           attack: parseInt(attackRef.current.value),
           defense: parseInt(defenseRef.current.value),
-          hp: 1000,
-          type: 'n/a',
-          idAuthor: 1
+          skills: parseInt(skillsRef.current.value),
+          idAuthor: 51,
+          idPosition: positionRef.current.value
         }
         console.log(playerNew)
         console.log(idEdit)
@@ -80,25 +84,12 @@ export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit
               <input
                 ref={secondNameRef}
                 type="text"
-                placeholder="apellido"
+                placeholder="Apellido"
                 onChange={(e) => setItems(e.target.value)}
-                value={items.name}
+                value={items.secondName}
               ></input>
-              <label>Ataque:</label>
-              <div className="setPlayer">
-                <label>0</label>
-                <input
-                  ref={attackRef}
-                  onChange={(e) => setItems(e.target.value)}
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={items.attack}
-                ></input>
-                <label>100</label>
-              </div>
             </div>
-            <p className="textError">{nameError}</p>
+
             <div className="setPlayer">
               <label>Imagen:</label>
               <input
@@ -108,23 +99,27 @@ export function Modal({ stateModal, setStateModal, items, setItems, edit, idEdit
                 onChange={(e) => setItems(e.target.value)}
                 value={items.image}
               ></input>
-              <label>Defensa:</label>
-              <div className="setPlayer">
-                <label>0</label>
-                <input
-                  ref={defenseRef}
-                  type="range"
-                  min="0"
-                  max="100"
-                  onChange={(e) => setItems(e.target.value)}
-                  value={items.defense}
-                ></input>
-                <label>100</label>
-              </div>
+              <label>Posición:</label>
+              <input
+                ref={positionRef}
+                type="text"
+                placeholder="Posicion"
+                onChange={(e) => setItems(e.target.value)}
+                value={items.idPosition}
+              ></input>
             </div>
-            <p className="textError">{urlError}</p>
-            <div className="buttonsNewPlayer">
-              <button onClick={createPlayer}>Guardar</button>
+            <div>
+              <Slider label="Ataque" ref={attackRef} onChange={(e) => setItems(e.target.value)} />
+            </div>
+            <div>
+              <Slider label="Defensa" ref={defenseRef} onChange={(e) => setItems(e.target.value)} />
+            </div>
+            <div>
+              <Slider label="Skills" ref={skillsRef} onChange={(e) => setItems(e.target.value)} />
+            </div>
+            <div>
+              {!edit && <button onClick={createPlayer}>Guardar</button>}
+              {edit && <button>Editar</button>}
             </div>
           </div>
         </section>

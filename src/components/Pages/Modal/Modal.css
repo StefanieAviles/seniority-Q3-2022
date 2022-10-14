@@ -32,6 +32,10 @@
     display: flex;
     justify-content: space-between;
 }
+.setFeatures{
+    display: flex;
+    justify-content: space-between;
+}
 .buttonsNewPlayer{
     display: flex;
     justify-content: space-evenly;

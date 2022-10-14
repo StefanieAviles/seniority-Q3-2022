@@ -22,7 +22,6 @@ export const Home: FC<HomeProps> = (props: HomeProps) => {
   useEffect(() => {
     UserService.getMyPlayers()
       .then((response) => {
-        console.log(response)
         setPlayers(response)
       })
       .catch(() => {})
@@ -34,7 +33,6 @@ export const Home: FC<HomeProps> = (props: HomeProps) => {
       <section className="home__board">
         <section className="home__card">
           {players.map((option: Player, item) => {
-            console.log(option.firstName)
             return (
               <section key={item} className="home__player">
                 <img className="home__image" src={option.image}></img>
